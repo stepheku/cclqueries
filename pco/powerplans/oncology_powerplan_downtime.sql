@@ -79,7 +79,7 @@ from pathway_catalog pwcat
     , outcome_catalog oc
 plan pwcat where pwcat.active_ind = 1
     and pwcat.type_mean in ("CAREPLAN", "PATHWAY")
-    and pwcat.description_key like 'ONC*PRE-TREAT*'
+    and pwcat.description_key like 'ONC*'
     and pwcat.description_key not like 'ONCOLOGY*'
     and pwcat.end_effective_dt_tm > cnvtdatetime(curdate,curtime3)
     and pwcat.beg_effective_dt_tm < cnvtdatetime(curdate,curtime3) /*Removes "Testing" and "Production, archived versions"*/
