@@ -8,7 +8,8 @@ select powerplan_description = pwcat.description
         endif
     , phase = pwcat2.description
     , phase_duration = concat(trim(cnvtstring(pwcat2.duration_qty)), " ", uar_get_code_display(pwcat2.duration_unit_cd))
-    , reference_text = substring(0,32000,lb.long_blob)
+    /*Reference text is set as 100 characters so this query does not error out*/
+    , reference_text = substring(0,100,lb.long_blob)
     , treatment_sched = pwcat3.description
     , parent_entity_name = evaluate2(if(pwcat.type_mean = "PATHWAY") pc.parent_entity_name
         elseif(pwcat.type_mean = "CAREPLAN") pc2.parent_entity_name endif)
