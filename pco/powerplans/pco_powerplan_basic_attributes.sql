@@ -1,5 +1,13 @@
-select powerplan = pwcat.description /* Description */
-    , plan_type = uar_get_code_display(pwcat.pathway_type_cd) /* Plan Type */
+/*
+pco_powerplan_basic_attributes.sql
+~~~~~~~~~~~~~~~~~~~
+This query grabs any currently active powerplan and powerplan-level
+attributes (such as default view, or copy forward) in addition to 
+reference text and powerplan commaents
+*/
+
+select powerplan = pwcat.description
+    , plan_type = uar_get_code_display(pwcat.pathway_type_cd)
     , pwcat.cross_encntr_ind
     , reference_text = lb.long_blob
     , powerplan_comment = lt.long_text
@@ -28,9 +36,11 @@ plan pwcat where pwcat.active_ind = 1
     and pwcat.type_mean in ("CAREPLAN", "PATHWAY")
     and (pwcat.description_key like 'ONC*'
         or pwcat.description_key like 'INF*')
-    and pwcat.end_effective_dt_tm > cnvtdatetime(curdate,curtime3)
-    and pwcat.beg_effective_dt_tm < cnvtdatetime(curdate,curtime3) /*Removes "Testing" and "Production, archived versions"*/
-    and pwcat.ref_owner_person_id = 0 /*Filter out pre-CPOE-built PowerPlans*/
+    and pwcat.end_effective_dt_tm > cnvtdatetime(sysdate)
+    and pwcat.beg_effective_dt_tm < cnvtdatetime(sysdate) 
+        /*Removes "Testing" and "Production, archived versions"*/
+    and pwcat.ref_owner_person_id = 0 
+        /*Filter out pre-CPOE-built PowerPlans*/
 join rtr where rtr.parent_entity_id = outerjoin(pwcat.pathway_catalog_id)
     and rtr.parent_entity_name = outerjoin("PATHWAY_CATALOG")
     and rtr.active_ind = outerjoin(1)
