@@ -38,6 +38,30 @@ select powerplan_description = pwcat.description
         if(pwcat.type_mean = "PATHWAY") pc.sequence
         elseif(pwcat.type_mean = "CAREPLAN") pc2.sequence
         endif)
+    , bgcolor_red = if(findstring('<BackColor>', pc.display_format_xml) > 0)
+        cnvtb16b10(
+            substring(
+            findstring('<BackColor>', pc.display_format_xml) + textlen('<BackColor>') + 6, 2,
+            pc.display_format_xml),
+            2
+            )
+        endif
+    , bgcolor_green = if(findstring('<BackColor>', pc.display_format_xml) > 0)
+        cnvtb16b10(
+            substring(
+            findstring('<BackColor>', pc.display_format_xml) + textlen('<BackColor>') + 4, 2,
+            pc.display_format_xml),
+            2
+            )
+        endif
+    , bgcolor_blue = if(findstring('<BackColor>', pc.display_format_xml) > 0)
+        cnvtb16b10(
+            substring(
+            findstring('<BackColor>', pc.display_format_xml) + textlen('<BackColor>') + 2, 2,
+            pc.display_format_xml),
+            2
+            )
+        endif
     , synonym = evaluate2(
         if(pwcat.type_mean = "PATHWAY")
             if(pc.parent_entity_name = "ORDER_CATALOG_SYNONYM") ocs.mnemonic
