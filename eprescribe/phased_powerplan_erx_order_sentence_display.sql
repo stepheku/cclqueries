@@ -127,8 +127,6 @@ from pathway_catalog pwcat
     , order_sentence_detail osd13 /*Duration Unit*/
 plan pwcat where pwcat.active_ind = 1
     and pwcat.type_mean in ("CAREPLAN", "PATHWAY")
-    and pwcat.description_key like 'ONC*'
-    and pwcat.description_key not like 'ONCOLOGY*'
     and pwcat.end_effective_dt_tm > cnvtdatetime(curdate,curtime3)
     and pwcat.beg_effective_dt_tm < cnvtdatetime(curdate,curtime3)
     and pwcat.ref_owner_person_id = 0
