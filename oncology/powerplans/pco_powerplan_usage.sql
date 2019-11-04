@@ -15,7 +15,7 @@ as order_dt_tm
 select pt = p.name_full_formatted
     , mrn = mrn.alias
     , fin = fin.alias
-    , powerplan = pw.pw_group_desc
+    , powerplan = pc.description
     , pw2.order_dt_tm
 from ( ( 
         /*In-line table is necessary because pathway table are
@@ -51,6 +51,7 @@ from ( (
     , encounter e
     , encntr_alias mrn
     , encntr_alias fin
+    , pathway_catalog pc
 plan pw
 join pw2 where pw2.pathway_id = pw.pathway_id
     /*Date boundaries if needed. If this is left commented, this query
@@ -71,4 +72,5 @@ join fin where fin.encntr_id = e.encntr_id
     and fin.encntr_alias_type_cd = value(uar_get_code_by("MEANING", 319, "FIN NBR"))
     and fin.active_ind = 1
     and fin.end_effective_dt_tm > sysdate
+join pc where pc.pathway_catalog_id = pw2.pw_cat_group_id
 with format(date, "mm/dd/yyyy hh:mm:ss"), time = 60 
