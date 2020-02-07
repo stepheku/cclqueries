@@ -65,12 +65,12 @@ select powerplan_description = pwcat.description
     , synonym = evaluate2(
         if(pwcat.type_mean = "PATHWAY")
             if(pc.parent_entity_name = "ORDER_CATALOG_SYNONYM") ocs.mnemonic
-            elseif(pc.parent_entity_name = "LONG_TEXT") TRIM(substring(0,255,lt.long_text),7)
+            elseif(pc.parent_entity_name = "LONG_TEXT") TRIM(substring(0,255,lt.long_text))
             elseif(pc.parent_entity_name = "OUTCOME_CATALOG") oc.description 
             endif
         elseif(pwcat.type_mean = "CAREPLAN")
             if(pc2.parent_entity_name = "ORDER_CATALOG_SYNONYM") ocs3.mnemonic
-            elseif(pc2.parent_entity_name = "LONG_TEXT") TRIM(substring(0,255,lt3.long_text),7) 
+            elseif(pc2.parent_entity_name = "LONG_TEXT") TRIM(substring(0,255,lt3.long_text)) 
             endif
         endif)
     , iv_builder_component = ocs2.mnemonic
