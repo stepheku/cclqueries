@@ -85,6 +85,10 @@ select powerplan_description = pwcat.description
         if(pwcat.type_mean = "PATHWAY") substring(0,255,lt2.long_text)
         elseif(pwcat.type_mean = "CAREPLAN") substring(0,255,lt4.long_text)
         endif)
+    , persistent_note = evaluate2(
+        if(pwcat.type_mean = "PATHWAY") pc.persistent_ind
+        elseif(pwcat.type_mean = "CAREPLAN") pc2.persistent_ind
+        endif)
 from pathway_catalog pwcat
     , pathway_catalog pwcat2
     , pw_cat_reltn pcr
