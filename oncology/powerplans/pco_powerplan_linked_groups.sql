@@ -9,6 +9,7 @@ select powerplan = pwcat.description
     , pc.sequence
     , synonym = ocs.mnemonic
     , order_sentence = os.order_sentence_display_line    
+    , pcg.anchor_component_ind
     , linking_rule = dm.description
     , linking_value = pcg.linking_rule_quantity
     , linking_grp_desc = pcg.description
