@@ -7,7 +7,15 @@ select powerplan = pwcat.description
     , reference_text = lb.long_blob
     , check_alerts_on_planning = pwcat2.alerts_on_plan_ind
     , check_alerts_on_plan_updt = pwcat2.alerts_on_plan_upd_ind
-    , route_for_review = pwcat2.route_for_review_ind
+    , route_for_review = 
+        if(pwcat2.route_for_review_ind = 1)
+            if(pwcat2.review_required_sig_count = 1) "Route for 1 review"
+            elseif(pwcat2.review_required_sig_count = 2) "Route for 2 reviews"
+            else "None"
+            endif
+        else
+            "None"
+        endif
     , classification = uar_get_code_display(pwcat2.pathway_class_cd)
     , doc_resched_reason = evaluate2(if(pwcat2.reschedule_reason_accept_flag = 0) "Off"
         elseif(pwcat2.reschedule_reason_accept_flag = 1) "Optional"
