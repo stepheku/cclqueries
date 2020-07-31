@@ -46,15 +46,15 @@ def del_readme_contents_section(path: str) -> bool:
         if contents_section_start_idx < idx and line[0] == '#':
             contents_section_end_idx = idx 
             break
+        elif contents_section_start_idx < idx and idx == len(lines) - 1:
+            contents_section_end_idx = idx 
+            break
 
     with open(path, 'w') as f:
         for idx, line in enumerate(lines):
             if contents_section_end_idx:
                 if idx < contents_section_start_idx or \
                     idx > contents_section_end_idx:
-                    f.write(line)
-            else:
-                if idx < contents_section_start_idx:
                     f.write(line)
 
 
@@ -90,7 +90,6 @@ def sync_file_docstrings_to_readme(folders: list):
 
             with open(readme_path, 'a') as f:
 
-                f.write('\n')
                 f.write('## Contents\n')
 
                 for sql_file in check_path_for_sql_files(folder):
@@ -111,6 +110,6 @@ def sync_file_docstrings_to_readme(folders: list):
 if __name__ == "__main__":
     dir_path = os.path.dirname(os.path.realpath(__file__))
     parent_path = os.path.dirname(dir_path)
-    subfolders = [folder for folder in glob.glob(os.path.join(parent_path, '*'))
-                  if os.path.isdir(folder)]
+    subfolders = [folder for folder in glob.glob(os.path.join(parent_path, '*'), 
+                  recursive=True) if os.path.isdir(folder)]
     sync_file_docstrings_to_readme(subfolders)
