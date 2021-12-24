@@ -26,7 +26,7 @@ plan rc where rc.active_ind = 1
 join rcs where rcs.regimen_catalog_id = rc.regimen_catalog_id
     and rcs.primary_ind = 1
 ;    and rcs.synonym_key like '*ONC*' /*Regimen name in CAPs with asterisks*/
-join rcar where rcar.regimen_catalog_id = rc.regimen_catalog_id
-    and rcar.active_ind = 1
-join rca where rca.regimen_cat_attribute_id = rcar.regimen_cat_attribute_id
-    and rca.active_ind = 1
+join rcar where rcar.regimen_catalog_id = outerjoin(rc.regimen_catalog_id)
+    and rcar.active_ind = outerjoin(1)
+join rca where rca.regimen_cat_attribute_id = outerjoin(rcar.regimen_cat_attribute_id)
+    and rca.active_ind = outerjoin(1)
